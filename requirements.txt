@@ -1,0 +1,17 @@
+fastapi 
+uvicorn 
+streamlit 
+langchain 
+langgraph 
+langchain-google-genai 
+faiss-cpu 
+pypdf 
+python-dotenv 
+langchain-text-splitters
+pymupdf
+pandas
+langchain_community
+vectorstore
+sentence-transformers
+langchain-huggingface
+langchain_groq
