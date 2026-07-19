@@ -278,6 +278,13 @@ streamlit run frontend/app.py
 - Resume PDF
 - Job Description PDF
 
+### Screenshots
+<img width="712" height="865" alt="image" src="https://github.com/user-attachments/assets/8e260b36-8950-46dd-929b-bf2e2188bfb0" />
+<img width="793" height="846" alt="image" src="https://github.com/user-attachments/assets/0288d5e2-b39a-4477-bb6f-a1aa5794786e" />
+<img width="1853" height="778" alt="image" src="https://github.com/user-attachments/assets/e9655373-d35d-4991-8279-572ad8d97c2a" />
+<img width="1822" height="842" alt="image" src="https://github.com/user-attachments/assets/93b77f56-5bea-4d54-ad13-16f31dc2d150" />
+
+
 ### AI Generates
 
 - Resume Summary
