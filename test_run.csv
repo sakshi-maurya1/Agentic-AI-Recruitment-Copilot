@@ -1,0 +1,6 @@
+filename,ocr_used,parse_time_s,resume_agent_time_s,matching_time_s,interview_time_s,total_time_s,match_percentage,exact_matched_count,semantic_matched_count,semantic_matches_detail,error
+CV_AhounouEvrard.pdf,False,0.0067,2.8458,11.7759,0.0,14.6284,8.0,0,1,"{'communication': {'matched_to': 'communication et coordination', 'distance': 0.5019}}",
+CV_AkilalLeticia.pdf,False,0.0394,1.601,1.1759,0.0,2.8163,16.0,1,1,"{'python programming': {'matched_to': 'python', 'distance': 0.1856}}",
+CV_AliliIslem.pdf,False,0.0166,2.8941,1.796,0.0,4.7068,8.0,0,1,"{'python programming': {'matched_to': 'python', 'distance': 0.1856}}",
+CV_ArafMohamed.pdf,False,0.0196,15.0125,13.4291,0.0,28.4612,8.0,1,0,{},
+CV_BenMessaoudNasreddind.pdf,False,0.0234,5.1284,9.5403,0.0,14.6921,0.0,0,0,{},

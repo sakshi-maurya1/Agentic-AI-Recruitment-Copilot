@@ -4,7 +4,7 @@ from backend.llm import llm
 from models.schemas import JobDescriptionData
 
 
-structured_llm = llm.with_structured_output(JobDescriptionData)
+structured_llm = llm.with_structured_output(JobDescriptionData, method="json_schema", strict=True)
 
 
 jd_prompt = ChatPromptTemplate.from_template(

@@ -4,7 +4,7 @@ from backend.llm import llm
 from models.schemas import ResumeData
 
 
-structured_llm = llm.with_structured_output(ResumeData)
+structured_llm = llm.with_structured_output(ResumeData, method="json_schema", strict=True)
 
 
 resume_prompt = ChatPromptTemplate.from_template(

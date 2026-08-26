@@ -1,6 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
 import os
 import shutil
+import pytesseract
+
+pytesseract.pytesseract.tesseract_cmd = (
+    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+)
 
 from utils.pdf_loader import load_pdf
 from rag.vector_store import create_vector_store
