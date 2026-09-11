@@ -229,9 +229,8 @@ Generates technical interview questions tailored to the candidate profile.
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/AIRecruitmentCopilot.git
-
-cd AIRecruitmentCopilot
+git clone https://github.com/sakshi-maurya1/Agentic-AI-Recruitment-Copilot.git
+cd Agentic-AI-Recruitment-Copilot
 ```
 
 Install dependencies
@@ -284,6 +283,12 @@ streamlit run frontend/app.py
 <img width="1853" height="778" alt="image" src="https://github.com/user-attachments/assets/e9655373-d35d-4991-8279-572ad8d97c2a" />
 <img width="1822" height="842" alt="image" src="https://github.com/user-attachments/assets/93b77f56-5bea-4d54-ad13-16f31dc2d150" />
 
+## 📊 Impact
+
+Benchmarked the FAISS-based semantic matching layer against 63 real resumes:
+- Surfaced **51 additional skill matches** beyond exact string matching alone
+- A **204% increase** in total matched skills
+- Improved match accuracy for **62% of candidates**
 
 ### AI Generates
 
