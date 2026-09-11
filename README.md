@@ -1,4 +1,8 @@
-# 🤖 AI Recruitment Copilot | LangGraph • LangChain • FastAPI • RAG • FAISS • Streamlit
+# 🤖 AI Recruitment Copilot 
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=flat&logo=langchain&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 An **Agentic AI-powered Recruitment Assistant** that automates resume screening using **LangGraph**, **LangChain**, **FastAPI**, **FAISS**, **RAG**, and **Streamlit**.
 
