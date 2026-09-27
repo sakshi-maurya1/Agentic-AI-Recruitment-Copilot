@@ -15,3 +15,5 @@ vectorstore
 sentence-transformers
 langchain-huggingface
 langchain_groq
+pytesseract
+pdf2image
