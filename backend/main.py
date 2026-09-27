@@ -1,11 +1,18 @@
 from fastapi import FastAPI, UploadFile, File
 import os
 import shutil
+import platform
 import pytesseract
+from pdf2image import convert_from_path
+from typing import List
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
+# Only set tesseract_cmd explicitly on Windows (local dev).
+# On Linux (Railway), tesseract is on PATH after nixpacks installs it —
+# pytesseract finds it automatically, no override needed.
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = (
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    )
 
 from utils.pdf_loader import load_pdf
 from rag.vector_store import create_vector_store
@@ -22,81 +29,64 @@ os.makedirs(JD_FOLDER, exist_ok=True)
 
 @app.get("/")
 def home():
-    return {
-        "message": "AI Recruitment Copilot API Running 🚀"
-    }
+    return {"message": "AI Recruitment Copilot API Running 🚀"}
+
+
+def extract_text_with_ocr_fallback(file_path, documents):
+    """
+    Uses load_pdf's extracted text if it looks real.
+    Falls back to OCR if the PDF has no text layer (i.e. it's a scan).
+    """
+    text = "\n".join(doc.page_content for doc in documents).strip()
+
+    if len(text) > 50:
+        return text
+
+    images = convert_from_path(file_path)
+    ocr_text = "\n".join(pytesseract.image_to_string(img) for img in images)
+    return ocr_text
 
 
 @app.post("/analyze")
 async def analyze(
-    resume: UploadFile = File(...),
+    resumes: List[UploadFile] = File(...),
     jd: UploadFile = File(...)
 ):
-
-    resume_path = os.path.join(
-        RESUME_FOLDER,
-        resume.filename
-    )
-
-    jd_path = os.path.join(
-        JD_FOLDER,
-        jd.filename
-    )
-
-    with open(resume_path, "wb") as buffer:
-        shutil.copyfileobj(
-            resume.file,
-            buffer
-        )
-
+    # --- JD: processed once, shared across all resumes ---
+    jd_path = os.path.join(JD_FOLDER, jd.filename)
     with open(jd_path, "wb") as buffer:
-        shutil.copyfileobj(
-            jd.file,
-            buffer
-        )
+        shutil.copyfileobj(jd.file, buffer)
 
-    resume_documents = load_pdf(
-        resume_path
-    )
+    jd_documents = load_pdf(jd_path)
+    create_vector_store(jd_documents, "jd")
+    jd_text = extract_text_with_ocr_fallback(jd_path, jd_documents)
 
-    jd_documents = load_pdf(
-        jd_path
-    )
+    results = []
 
-    create_vector_store(
-        resume_documents, 
-        "resume"
-    )
+    for resume in resumes:
+        run_id = os.urandom(4).hex()  # avoids filename collisions between resumes
+        resume_filename = f"{run_id}_{resume.filename}"
+        resume_path = os.path.join(RESUME_FOLDER, resume_filename)
 
-    create_vector_store(
-        jd_documents,
-        "jd"
-    )
+        with open(resume_path, "wb") as buffer:
+            shutil.copyfileobj(resume.file, buffer)
 
-    resume_text = "\n".join(
-        doc.page_content
-        for doc in resume_documents
-    )
+        resume_documents = load_pdf(resume_path)
+        create_vector_store(resume_documents, f"resume_{run_id}")
 
-    jd_text = "\n".join(
-        doc.page_content
-        for doc in jd_documents
-    )
+        resume_text = extract_text_with_ocr_fallback(resume_path, resume_documents)
 
-    result = workflow.invoke(
-        {
+        result = workflow.invoke({
             "resume_text": resume_text,
             "jd_text": jd_text
-        }
-    )
+        })
 
-    from pprint import pprint
+        results.append({
+            "filename": resume.filename,
+            "resume_analysis": result["resume_data"],
+            "job_description": result["jd_data"],
+            "match_result": result["match_result"],
+            "interview_questions": result["interview_questions"]
+        })
 
-    pprint(result)
-
-    return {
-        "resume_analysis": result["resume_data"],
-        "job_description": result["jd_data"],
-        "match_result": result["match_result"],
-        "interview_questions": result["interview_questions"]
-    }
+    return {"results": results}
